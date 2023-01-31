@@ -36,3 +36,20 @@ Route::get('events/{category}', function ($category) {
 
     return Events::where('category', $category)->get();
 });
+
+Route::post('event/create', function (Request $request) {
+    $input = $request->input();
+    $validated = $request->validate([
+        'title' => 'string',
+        'category' => 'string',
+        'date' => 'date',
+        "created_by" => 'numeric'
+    ]);
+
+    $event = new Events();
+    $event->title = $validated['title'];
+    $event->category = $validated['category'];
+    $event->date = $validated['date'];
+    $event->created_by = $validated['created_by'];
+    return $event->save();
+});
