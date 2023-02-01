@@ -21,7 +21,8 @@ Route::get('events', function () {
 });
 
 Route::get('event/{id}', function ($id) {
-    return Events::where('id', $id)->first();
+    $event = Events::with('created_by')->find($id);;
+    return $event;
 });
 
 Route::get('users', function () {
@@ -52,4 +53,10 @@ Route::post('event/create', function (Request $request) {
     $event->date = $validated['date'];
     $event->created_by = $validated['created_by'];
     return $event->save();
+});
+
+
+Route::get("user/{id}/events", function ($id) {
+    $events = Events::where("created_by", $id)->get();
+    return $events;
 });
