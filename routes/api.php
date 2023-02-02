@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Event;
 use App\Models\Events;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,11 +18,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('events', function () {
-    return Events::all();
+    return Event::all();
 });
 
 Route::get('event/{id}', function ($id) {
-    $event = Events::with('created_by')->find($id);;
+    $event = Event::find($id);
+    $event->user;
     return $event;
 });
 
@@ -35,7 +37,7 @@ Route::get('user/{id}', function ($id) {
 
 Route::get('events/{category}', function ($category) {
 
-    return Events::where('category', $category)->get();
+    return Event::where('category', $category)->get();
 });
 
 Route::post('event/create', function (Request $request) {
@@ -47,7 +49,7 @@ Route::post('event/create', function (Request $request) {
         "created_by" => 'numeric'
     ]);
 
-    $event = new Events();
+    $event = new Event();
     $event->title = $validated['title'];
     $event->category = $validated['category'];
     $event->date = $validated['date'];
@@ -57,6 +59,6 @@ Route::post('event/create', function (Request $request) {
 
 
 Route::get("user/{id}/events", function ($id) {
-    $events = Events::where("created_by", $id)->get();
+    $events = Event::where("created_by", $id)->get();
     return $events;
 });

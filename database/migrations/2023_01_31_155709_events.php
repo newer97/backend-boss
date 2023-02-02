@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create("Event", function (Blueprint $table) {
+        Schema::create("events", function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string('title');
             $table->string('category');
@@ -31,6 +31,6 @@ return new class extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('Event');
+        Schema::dropIfExists('events');
     }
 };
